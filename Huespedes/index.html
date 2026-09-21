@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huéspedes | Encuentra tu alojamiento</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --primary:#2563eb;
+    --primary-dark:#1d4ed8;
+    --secondary:#0f172a;
+    --bg:#f8fafc;
+    --card:#ffffff;
+    --text:#0f172a;
+    --muted:#64748b;
+    --border:#e2e8f0;
+    --success:#16a34a;
+    --danger:#dc2626;
+    --warning:#f59e0b;
+    --shadow:0 10px 30px rgba(15,23,42,.08);
+}
+
+body.dark{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#f8fafc;
+    --muted:#cbd5e1;
+    --border:#334155;
+    --secondary:#f8fafc;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    transition:.3s;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:var(--card);
+    border-bottom:1px solid var(--border);
+}
+
+.navbar{
+    max-width:1250px;
+    margin:auto;
+    padding:15px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:900;
+    color:var(--primary);
+    cursor:pointer;
+}
+
+.logo span{
+    color:var(--text);
+}
+
+.nav-links{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.nav-links button{
+    border:0;
+    background:transparent;
+    color:var(--text);
+    padding:10px 13px;
+    border-radius:10px;
+}
+
+.nav-links button:hover{
+    background:#eff6ff;
+    color:var(--primary);
+}
+
+.nav-actions{
+    display:flex;
+    gap:8px;
+}
+
+.icon-btn{
+    width:42px;
+    height:42px;
+    border:1px solid var(--border);
+    border-radius:50%;
+    background:var(--card);
+    color:var(--text);
+}
+
+.primary{
+    background:var(--primary)!important;
+    color:white!important;
+    border:0!important;
+}
+
+.primary:hover{
+    background:var(--primary-dark)!important;
+}
+
+.container{
+    max-width:1250px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+.hero{
+    min-height:420px;
+    display:flex;
+    align-items:center;
+    border-radius:28px;
+    padding:55px;
+    margin-top:25px;
+    color:white;
+    background:
+        linear-gradient(rgba(15,23,42,.55),rgba(15,23,42,.7)),
+        url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80")
+        center/cover;
+}
+
+.hero-content{
+    max-width:750px;
+}
+
+.hero h1{
+    font-size:52px;
+    line-height:1.05;
+    margin-bottom:18px;
+}
+
+.hero p{
+    font-size:19px;
+    margin-bottom:30px;
+}
+
+.search-box{
+    background:white;
+    padding:10px;
+    border-radius:18px;
+    display:grid;
+    grid-template-columns:1.5fr 1fr 1fr 1fr auto;
+    gap:8px;
+    box-shadow:0 15px 40px rgba(0,0,0,.18);
+}
+
+.search-field{
+    padding:12px;
+    color:#0f172a;
+}
+
+.search-field label{
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    color:#64748b;
+    margin-bottom:5px;
+}
+
+.search-field input,
+.search-field select{
+    width:100%;
+    border:0;
+    outline:0;
+    background:transparent;
+    color:#0f172a;
+}
+
+.search-button{
+    border:0;
+    background:var(--primary);
+    color:white;
+    border-radius:12px;
+    padding:0 22px;
+    font-weight:bold;
+}
+
+.section{
+    margin-top:45px;
+}
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.section-title h2{
+    font-size:28px;
+}
+
+.section-title button{
+    border:0;
+    background:transparent;
+    color:var(--primary);
+    font-weight:bold;
+}
+
+.quick-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:15px;
+}
+
+.quick-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:25px 15px;
+    text-align:center;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.quick-card:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--shadow);
+}
+
+.quick-card .emoji{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+.quick-card h3{
+    font-size:16px;
+}
+
+.quick-card p{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:5px;
+}
+
+.filters{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+.filter-btn{
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    padding:10px 16px;
+    border-radius:30px;
+}
+
+.filter-btn.active{
+    background:var(--primary);
+    color:white;
+    border-color:var(--primary);
+}
+
+.hotels-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+}
+
+.hotel-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 4px 15px rgba(15,23,42,.04);
+    transition:.2s;
+}
+
+.hotel-card:hover{
+    transform:translateY(-5px);
+    box-shadow:var(--shadow);
+}
+
+.hotel-image{
+    height:210px;
+    position:relative;
+    background-size:cover;
+    background-position:center;
+}
+
+.favorite{
+    position:absolute;
+    right:12px;
+    top:12px;
+    width:42px;
+    height:42px;
+    border:0;
+    border-radius:50%;
+    background:white;
+    font-size:20px;
+}
+
+.favorite.active{
+    color:#ef4444;
+}
+
+.badge{
+    position:absolute;
+    left:12px;
+    top:12px;
+    background:white;
+    color:#0f172a;
+    padding:7px 10px;
+    border-radius:8px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.hotel-info{
+    padding:18px;
+}
+
+.hotel-location{
+    color:var(--muted);
+    font-size:13px;
+    margin:5px 0 12px;
+}
+
+.rating{
+    color:#f59e0b;
+    font-weight:bold;
+}
+
+.hotel-price{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    margin-top:18px;
+}
+
+.price{
+    font-size:21px;
+    font-weight:900;
+}
+
+.price small{
+    color:var(--muted);
+    font-size:12px;
+    font-weight:normal;
+}
+
+.hotel-actions{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+}
+
+.hotel-actions button{
+    flex:1;
+    padding:10px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+}
+
+.hotel-actions .details{
+    background:var(--primary);
+    color:white;
+    border-color:var(--primary);
+}
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.feature{
+    padding:25px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+}
+
+.feature-icon{
+    font-size:32px;
+    margin-bottom:12px;
+}
+
+.feature p{
+    color:var(--muted);
+    margin-top:8px;
+    line-height:1.5;
+}
+
+footer{
+    margin-top:70px;
+    background:#0f172a;
+    color:white;
+    padding:45px 20px;
+}
+
+.footer-grid{
+    max-width:1250px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+    gap:35px;
+}
+
+footer h3{
+    margin-bottom:15px;
+}
+
+footer p,
+footer li{
+    color:#cbd5e1;
+    line-height:1.8;
+}
+
+footer ul{
+    list-style:none;
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.7);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:3000;
+    padding:20px;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    width:min(600px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:var(--card);
+    color:var(--text);
+    border-radius:22px;
+    padding:28px;
+    position:relative;
+}
+
+.close{
+    position:absolute;
+    right:18px;
+    top:15px;
+    border:0;
+    background:transparent;
+    color:var(--text);
+    font-size:25px;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+.form-group input{
+    width:100%;
+    padding:13px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--card);
+    color:var(--text);
+    outline:none;
+}
+
+.form-group input:focus{
+    border-color:var(--primary);
+}
+
+.form-button{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:11px;
+    background:var(--primary);
+    color:white;
+    font-weight:bold;
+}
+
+.switch-auth{
+    margin-top:18px;
+    text-align:center;
+    color:var(--muted);
+}
+
+.switch-auth button{
+    border:0;
+    background:transparent;
+    color:var(--primary);
+    font-weight:bold;
+}
+
+.detail-image{
+    width:100%;
+    height:260px;
+    object-fit:cover;
+    border-radius:15px;
+    margin:15px 0;
+}
+
+.detail-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin:20px 0;
+}
+
+.detail-item{
+    background:var(--bg);
+    padding:12px;
+    border-radius:10px;
+}
+
+.profile{
+    display:none;
+}
+
+.profile.active{
+    display:block;
+}
+
+.profile-header{
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    color:white;
+    padding:35px;
+    border-radius:22px;
+    display:flex;
+    gap:20px;
+    align-items:center;
+}
+
+.avatar{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:white;
+    color:var(--primary);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:35px;
+    font-weight:bold;
+}
+
+.profile-menu{
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.profile-option{
+    padding:22px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    cursor:pointer;
+}
+
+.empty{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--muted);
+}
+
+.compare-bar{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--secondary);
+    color:white;
+    padding:15px 20px;
+    border-radius:18px;
+    display:none;
+    align-items:center;
+    gap:20px;
+    z-index:1500;
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
+
+.compare-bar.active{
+    display:flex;
+}
+
+.compare-bar button{
+    border:0;
+    background:var(--primary);
+    color:white;
+    padding:10px 15px;
+    border-radius:9px;
+}
+
+.compare-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.compare-item{
+    border:1px solid var(--border);
+    padding:15px;
+    border-radius:12px;
+}
+
+.toast{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:#0f172a;
+    color:white;
+    padding:15px 20px;
+    border-radius:12px;
+    transform:translateY(100px);
+    opacity:0;
+    transition:.3s;
+    z-index:5000;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+.mobile-menu{
+    display:none;
+}
+
+@media(max-width:1000px){
+    .search-box{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .search-button{
+        padding:14px;
+    }
+
+    .hotels-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .quick-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .features{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:700px){
+    .nav-links{
+        display:none;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+    .hero{
+        padding:30px 20px;
+        min-height:500px;
+    }
+
+    .hero h1{
+        font-size:38px;
+    }
+
+    .search-box{
+        grid-template-columns:1fr;
+    }
+
+    .search-button{
+        padding:14px;
+    }
+
+    .hotels-grid{
+        grid-template-columns:1fr;
+    }
+
+    .quick-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .profile-menu{
+        grid-template-columns:1fr;
+    }
+
+    .compare-grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<nav class="navbar">
+
+    <div class="logo" onclick="goHome()">
+        🏠 <span>Huéspedes</span>
+    </div>
+
+    <div class="nav-links">
+        <button onclick="goHome()">Inicio</button>
+        <button onclick="showHotels()">Alojamientos</button>
+        <button onclick="showFavorites()">❤️ Favoritos</button>
+        <button onclick="openCompare()">⚖️ Comparar</button>
+    </div>
+
+    <div class="nav-actions">
+        <button class="icon-btn" onclick="toggleDark()">🌙</button>
+        <button class="icon-btn" onclick="openProfile()">👤</button>
+        <button class="icon-btn mobile-menu" onclick="toggleMobile()">☰</button>
+    </div>
+
+</nav>
+</header>
+
+<main id="mainContent">
+
+<div class="container">
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>Encuentra tu próximo lugar para quedarte.</h1>
+
+<p>
+Compara alojamientos, descubre nuevos destinos
+y encuentra una opción que se adapte a tu viaje.
+</p>
+
+<div class="search-box">
+
+<div class="search-field">
+<label>📍 DESTINO</label>
+<input id="searchDestination" placeholder="¿A dónde vas?">
+</div>
+
+<div class="search-field">
+<label>📅 ENTRADA</label>
+<input type="date" id="checkin">
+</div>
+
+<div class="search-field">
+<label>📅 SALIDA</label>
+<input type="date" id="checkout">
+</div>
+
+<div class="search-field">
+<label>👥 HUÉSPEDES</label>
+<select id="guests">
+<option>1 huésped</option>
+<option>2 huéspedes</option>
+<option>3 huéspedes</option>
+<option>4 huéspedes</option>
+<option>5+ huéspedes</option>
+</select>
+</div>
+
+<button class="search-button" onclick="searchHotels()">
+Buscar
+</button>
+
+</div>
+
+</div>
+</section>
+
+
+<section class="section">
+
+<div class="section-title">
+<h2>Explora por destino</h2>
+</div>
+
+<div class="quick-grid">
+
+<div class="quick-card" onclick="destinationSearch('Cartagena')">
+<div class="emoji">🏖️</div>
+<h3>Cartagena</h3>
+<p>Playas y cultura</p>
+</div>
+
+<div class="quick-card" onclick="destinationSearch('Medellín')">
+<div class="emoji">🏙️</div>
+<h3>Medellín</h3>
+<p>Ciudad de la eterna primavera</p>
+</div>
+
+<div class="quick-card" onclick="destinationSearch('Bogotá')">
+<div class="emoji">🌆</div>
+<h3>Bogotá</h3>
+<p>Capital de Colombia</p>
+</div>
+
+<div class="quick-card" onclick="destinationSearch('Santa Marta')">
+<div class="emoji">🌴</div>
+<h3>Santa Marta</h3>
+<p>Naturaleza y mar</p>
+</div>
+
+<div class="quick-card" onclick="destinationSearch('San Andrés')">
+<div class="emoji">🌊</div>
+<h3>San Andrés</h3>
+<p>Caribe colombiano</p>
+</div>
+
+</div>
+</section>
+
+
+<section class="section" id="hotelsSection">
+
+<div class="section-title">
+<h2>Alojamientos recomendados</h2>
+<button onclick="showHotels()">Ver todos →</button>
+</div>
+
+<div class="filters">
+
+<button class="filter-btn active" onclick="filterHotels('all',this)">
+Todos
+</button>
+
+<button class="filter-btn" onclick="filterHotels('hotel',this)">
+🏨 Hoteles
+</button>
+
+<button class="filter-btn" onclick="filterHotels('apartamento',this)">
+🏢 Apartamentos
+</button>
+
+<button class="filter-btn" onclick="filterHotels('hostal',this)">
+🛏️ Hostales
+</button>
+
+<button class="filter-btn" onclick="filterHotels('resort',this)">
+🌴 Resorts
+</button>
+
+</div>
+
+<div class="hotels-grid" id="hotelGrid"></div>
+
+</section>
+
+
+<section class="section">
+
+<div class="section-title">
+<h2>¿Por qué utilizar Huéspedes?</h2>
+</div>
+
+<div class="features">
+
+<div class="feature">
+<div class="feature-icon">🔎</div>
+<h3>Busca fácilmente</h3>
+<p>
+Encuentra alojamientos según destino,
+precio, tipo y preferencias.
+</p>
+</div>
+
+<div class="feature">
+<div class="feature-icon">⚖️</div>
+<h3>Compara</h3>
+<p>
+Selecciona diferentes alojamientos
+y compara sus características.
+</p>
+</div>
+
+<div class="feature">
+<div class="feature-icon">❤️</div>
+<h3>Guarda favoritos</h3>
+<p>
+Guarda tus opciones preferidas para
+revisarlas posteriormente.
+</p>
+</div>
+
+<div class="feature">
+<div class="feature-icon">🔐</div>
+<h3>Tu cuenta</h3>
+<p>
+Administra tus favoritos, búsquedas
+y preferencias desde tu perfil.
+</p>
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+</main>
+
+
+<!-- PERFIL -->
+
+<section class="container profile" id="profileSection">
+
+<div class="profile-header">
+
+<div class="avatar" id="profileAvatar">H</div>
+
+<div>
+<h1 id="profileName">Huésped</h1>
+<p id="profileEmail">Inicia sesión para administrar tu cuenta.</p>
+</div>
+
+</div>
+
+<div class="profile-menu">
+
+<div class="profile-option" onclick="showFavorites()">
+<h3>❤️ Mis favoritos</h3>
+<p>Consulta tus alojamientos guardados.</p>
+</div>
+
+<div class="profile-option" onclick="openCompare()">
+<h3>⚖️ Comparaciones</h3>
+<p>Compara alojamientos seleccionados.</p>
+</div>
+
+<div class="profile-option" onclick="logout()">
+<h3>🚪 Cerrar sesión</h3>
+<p>Salir de tu cuenta.</p>
+</div>
+
+</div>
+
+</section>
+
+
+<footer>
+
+<div class="footer-grid">
+
+<div>
+<h3>🏠 Huéspedes</h3>
+<p>
+Una plataforma para explorar y comparar
+opciones de alojamiento de forma sencilla.
+</p>
+</div>
+
+<div>
+<h3>Explorar</h3>
+<ul>
+<li>Destinos</li>
+<li>Alojamientos</li>
+<li>Favoritos</li>
+<li>Comparar</li>
+</ul>
+</div>
+
+<div>
+<h3>Ayuda</h3>
+<ul>
+<li>Centro de ayuda</li>
+<li>Preguntas frecuentes</li>
+<li>Contacto</li>
+</ul>
+</div>
+
+<div>
+<h3>Cuenta</h3>
+<ul>
+<li>Iniciar sesión</li>
+<li>Registrarse</li>
+<li>Mi perfil</li>
+</ul>
+</div>
+
+</div>
+
+</footer>
+
+
+<!-- LOGIN -->
+
+<div class="modal" id="authModal">
+
+<div class="modal-box">
+
+<button class="close" onclick="closeModal('authModal')">×</button>
+
+<h2 id="authTitle">Iniciar sesión</h2>
+
+<p style="color:var(--muted);margin:8px 0 20px;">
+Accede a tu cuenta de Huéspedes.
+</p>
+
+<div id="registerFields" style="display:none;">
+
+<div class="form-group">
+<label>Nombre</label>
+<input id="registerName" placeholder="Tu nombre">
+</div>
+
+</div>
+
+<div class="form-group">
+<label>Correo electrónico</label>
+<input id="authEmail" type="email" placeholder="correo@ejemplo.com">
+</div>
+
+<div class="form-group">
+<label>Contraseña</label>
+<input id="authPassword" type="password" placeholder="••••••••">
+</div>
+
+<button class="form-button" onclick="submitAuth()">
+<span id="authButton">Iniciar sesión</span>
+</button>
+
+<div class="switch-auth">
+<span id="authSwitchText">¿No tienes una cuenta?</span>
+<button onclick="toggleAuth()">Registrarse</button>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- DETALLE -->
+
+<div class="modal" id="detailModal">
+
+<div class="modal-box">
+
+<button class="close" onclick="closeModal('detailModal')">×</button>
+
+<div id="detailContent"></div>
+
+</div>
+
+</div>
+
+
+<!-- COMPARACIÓN -->
+
+<div class="modal" id="compareModal">
+
+<div class="modal-box">
+
+<button class="close" onclick="closeModal('compareModal')">×</button>
+
+<h2>⚖️ Comparar alojamientos</h2>
+
+<p style="color:var(--muted);margin:8px 0 20px;">
+Compara las opciones que hayas seleccionado.
+</p>
+
+<div id="compareContent"></div>
+
+</div>
+
+</div>
+
+
+<div class="compare-bar" id="compareBar">
+
+<span id="compareCount">0 seleccionados</span>
+
+<button onclick="openCompare()">
+Comparar
+</button>
+
+<button onclick="clearCompare()">
+Limpiar
+</button>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+const hotels = [
+
+{
+id:1,
+name:"Hotel Caribe Cartagena",
+city:"Cartagena",
+type:"hotel",
+price:280000,
+rating:4.8,
+reviews:342,
+image:"https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=80",
+description:"Alojamiento cerca de las principales zonas turísticas de Cartagena.",
+features:["Piscina","WiFi","Desayuno","Aire acondicionado"]
+},
+
+{
+id:2,
+name:"Apartamento Centro Histórico",
+city:"Cartagena",
+type:"apartamento",
+price:185000,
+rating:4.6,
+reviews:189,
+image:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=80",
+description:"Apartamento moderno ubicado cerca del centro histórico.",
+features:["Cocina","WiFi","TV","Aire acondicionado"]
+},
+
+{
+id:3,
+name:"Hostal Tropical",
+city:"Santa Marta",
+type:"hostal",
+price:95000,
+rating:4.4,
+reviews:215,
+image:"https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1000&q=80",
+description:"Hostal económico para viajeros que desean conocer Santa Marta.",
+features:["WiFi","Cocina compartida","Terraza","Recepción 24h"]
+},
+
+{
+id:4,
+name:"Resort Playa Azul",
+city:"San Andrés",
+type:"resort",
+price:520000,
+rating:4.9,
+reviews:520,
+image:"https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1000&q=80",
+description:"Resort frente al mar con múltiples servicios para huéspedes.",
+features:["Playa privada","Piscina","Restaurante","Spa"]
+},
+
+{
+id:5,
+name:"Hotel Medellín Central",
+city:"Medellín",
+type:"hotel",
+price:220000,
+rating:4.7,
+reviews:280,
+image:"https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1000&q=80",
+description:"Hotel moderno en una zona estratégica de Medellín.",
+features:["WiFi","Piscina","Gimnasio","Restaurante"]
+},
+
+{
+id:6,
+name:"Apartamento Bogotá Norte",
+city:"Bogotá",
+type:"apartamento",
+price:165000,
+rating:4.5,
+reviews:155,
+image:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80",
+description:"Apartamento cómodo para viajes de trabajo o turismo.",
+features:["Cocina","WiFi","Lavadora","TV"]
+},
+
+{
+id:7,
+name:"Casa Caribe",
+city:"Cartagena",
+type:"hostal",
+price:120000,
+rating:4.3,
+reviews:98,
+image:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1000&q=80",
+description:"Casa de huéspedes con ambiente tranquilo.",
+features:["Jardín","WiFi","Cocina","Terraza"]
+},
+
+{
+id:8,
+name:"Luxury Cartagena Resort",
+city:"Cartagena",
+type:"resort",
+price:650000,
+rating:4.9,
+reviews:740,
+image:"https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=1000&q=80",
+description:"Experiencia premium con servicios completos.",
+features:["Piscina","Spa","Restaurante","Playa"]
+}
+
+];
+
+let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+let compare = [];
+
+let currentFilter = "all";
+
+let authMode = "login";
+
+
+function renderHotels(list=hotels){
+
+const grid = document.getElementById("hotelGrid");
+
+if(list.length===0){
+
+grid.innerHTML=`
+<div class="empty">
+<h2>😕 No encontramos alojamientos</h2>
+<p>Prueba con otro destino o cambia los filtros.</p>
+</div>
+`;
+
+return;
+
+}
+
+grid.innerHTML=list.map(hotel=>{
+
+const isFavorite=favorites.includes(hotel.id);
+
+const isCompare=compare.includes(hotel.id);
+
+return `
+
+<article class="hotel-card">
+
+<div class="hotel-image"
+style="background-image:url('${hotel.image}')">
+
+<span class="badge">
+${hotel.type.toUpperCase()}
+</span>
+
+<button
+class="favorite ${isFavorite?'active':''}"
+onclick="toggleFavorite(${hotel.id})">
+
+${isFavorite?'♥':'♡'}
+
+</button>
+
+</div>
+
+<div class="hotel-info">
+
+<h3>${hotel.name}</h3>
+
+<div class="hotel-location">
+📍 ${hotel.city}
+</div>
+
+<div class="rating">
+⭐ ${hotel.rating}
+<span style="color:var(--muted);font-weight:normal;">
+(${hotel.reviews} reseñas)
+</span>
+</div>
+
+<div class="hotel-price">
+
+<div>
+<span class="price">
+$${hotel.price.toLocaleString("es-CO")}
+</span>
+<small> / noche</small>
+</div>
+
+</div>
+
+<div class="hotel-actions">
+
+<button class="details"
+onclick="showDetail(${hotel.id})">
+Ver detalles
+</button>
+
+<button
+onclick="toggleCompare(${hotel.id})">
+
+${isCompare?'✓ Comparando':'⚖️ Comparar'}
+
+</button>
+
+</div>
+
+</div>
+
+</article>
+
+`;
+
+}).join("");
+
+updateCompareBar();
+
+}
+
+
+function searchHotels(){
+
+const destination=
+document.getElementById("searchDestination").value
+.trim()
+.toLowerCase();
+
+let result=hotels;
+
+if(destination){
+
+result=result.filter(h=>
+h.city.toLowerCase().includes(destination) ||
+h.name.toLowerCase().includes(destination)
+);
+
+}
+
+if(currentFilter!=="all"){
+
+result=result.filter(h=>h.type===currentFilter);
+
+}
+
+renderHotels(result);
+
+document.getElementById("hotelsSection")
+.scrollIntoView({behavior:"smooth"});
+
+}
+
+
+function destinationSearch(city){
+
+document.getElementById("searchDestination").value=city;
+
+searchHotels();
+
+}
+
+
+function filterHotels(type,button){
+
+currentFilter=type;
+
+document.querySelectorAll(".filter-btn")
+.forEach(b=>b.classList.remove("active"));
+
+button.classList.add("active");
+
+let result=hotels;
+
+if(type!=="all"){
+
+result=result.filter(h=>h.type===type);
+
+}
+
+const destination=
+document.getElementById("searchDestination").value
+.trim()
+.toLowerCase();
+
+if(destination){
+
+result=result.filter(h=>
+h.city.toLowerCase().includes(destination)
+);
+
+}
+
+renderHotels(result);
+
+}
+
+
+function toggleFavorite(id){
+
+if(favorites.includes(id)){
+
+favorites=favorites.filter(x=>x!==id);
+
+showToast("Eliminado de favoritos");
+
+}else{
+
+favorites.push(id);
+
+showToast("❤️ Agregado a favoritos");
+
+}
+
+localStorage.setItem(
+"favorites",
+JSON.stringify(favorites)
+);
+
+renderHotels();
+
+}
+
+
+function showFavorites(){
+
+const list=hotels.filter(h=>favorites.includes(h.id));
+
+goHome();
+
+setTimeout(()=>{
+
+if(list.length===0){
+
+document.getElementById("hotelGrid").innerHTML=`
+<div class="empty">
+<h2>❤️ Aún no tienes favoritos</h2>
+<p>Presiona el corazón de un alojamiento para guardarlo.</p>
+</div>
+`;
+
+}else{
+
+renderHotels(list);
+
+}
+
+document.getElementById("hotelsSection")
+.scrollIntoView({behavior:"smooth"});
+
+},50);
+
+}
+
+
+function toggleCompare(id){
+
+if(compare.includes(id)){
+
+compare=compare.filter(x=>x!==id);
+
+showToast("Eliminado de comparación");
+
+}else{
+
+if(compare.length>=4){
+
+showToast("Puedes comparar hasta 4 alojamientos.");
+
+return;
+
+}
+
+compare.push(id);
+
+showToast("Agregado a comparación");
+
+}
+
+renderHotels();
+
+}
+
+
+function updateCompareBar(){
+
+const bar=document.getElementById("compareBar");
+
+if(compare.length>0){
+
+bar.classList.add("active");
+
+document.getElementById("compareCount").textContent=
+compare.length+" seleccionado"+(compare.length>1?"s":"");
+
+}else{
+
+bar.classList.remove("active");
+
+}
+
+}
+
+
+function clearCompare(){
+
+compare=[];
+
+updateCompareBar();
+
+renderHotels();
+
+showToast("Comparación limpiada");
+
+}
+
+
+function openCompare(){
+
+const selected=hotels.filter(h=>compare.includes(h.id));
+
+let content="";
+
+if(selected.length===0){
+
+content=`
+<div class="empty">
+<h3>⚖️ No hay alojamientos seleccionados</h3>
+<p>Selecciona hasta 4 alojamientos para compararlos.</p>
+</div>
+`;
+
+}else{
+
+content=`
+<div class="compare-grid">
+
+${selected.map(h=>`
+
+<div class="compare-item">
+
+<img
+src="${h.image}"
+style="width:100%;height:150px;object-fit:cover;border-radius:10px;"
+>
+
+<h3 style="margin-top:12px;">
+${h.name}
+</h3>
+
+<p>📍 ${h.city}</p>
+
+<p>⭐ ${h.rating} (${h.reviews})</p>
+
+<p>
+<strong>
+$${h.price.toLocaleString("es-CO")}
+</strong>
+/ noche
+</p>
+
+<p style="margin-top:8px;">
+${h.features.join(" • ")}
+</p>
+
+</div>
+
+`).join("")}
+
+</div>
+`;
+
+}
+
+document.getElementById("compareContent").innerHTML=content;
+
+document.getElementById("compareModal")
+.classList.add("active");
+
+}
+
+
+function showDetail(id){
+
+const h=hotels.find(x=>x.id===id);
+
+if(!h)return;
+
+document.getElementById("detailContent").innerHTML=`
+
+<h2>${h.name}</h2>
+
+<p class="hotel-location">
+📍 ${h.city}
+</p>
+
+<img class="detail-image" src="${h.image}">
+
+<div class="rating">
+⭐ ${h.rating}
+<span style="color:var(--muted)">
+(${h.reviews} reseñas)
+</span>
+</div>
+
+<p style="margin-top:15px;line-height:1.6;">
+${h.description}
+</p>
+
+<div class="detail-grid">
+
+<div class="detail-item">
+<strong>Tipo</strong><br>
+${h.type}
+</div>
+
+<div class="detail-item">
+<strong>Precio</strong><br>
+$${h.price.toLocaleString("es-CO")} / noche
+</div>
+
+<div class="detail-item">
+<strong>Calificación</strong><br>
+${h.rating}/5
+</div>
+
+<div class="detail-item">
+<strong>Reseñas</strong><br>
+${h.reviews}
+</div>
+
+</div>
+
+<h3>Servicios</h3>
+
+<p style="margin:12px 0;">
+${h.features.map(x=>`✓ ${x}`).join("　")}
+</p>
+
+<button
+class="form-button"
+onclick="reserveHotel(${h.id)">
+Continuar
+</button>
+
+`;
+
+document.getElementById("detailModal")
+.classList.add("active");
+
+}
+
+
+function reserveHotel(id){
+
+const h=hotels.find(x=>x.id===id);
+
+closeModal("detailModal");
+
+showToast(
+`Solicitud iniciada para ${h.name}`
+);
+
+}
+
+
+function openProfile(){
+
+const user=JSON.parse(
+localStorage.getItem("user") || "null"
+);
+
+if(!user){
+
+authMode="login";
+
+updateAuthUI();
+
+document.getElementById("authModal")
+.classList.add("active");
+
+return;
+
+}
+
+document.getElementById("mainContent").style.display="none";
+
+document.getElementById("profileSection")
+.classList.add("active");
+
+document.getElementById("profileName")
+.textContent=user.name;
+
+document.getElementById("profileEmail")
+.textContent=user.email;
+
+document.getElementById("profileAvatar")
+.textContent=user.name.charAt(0).toUpperCase();
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+
+function goHome(){
+
+document.getElementById("profileSection")
+.classList.remove("active");
+
+document.getElementById("mainContent")
+.style.display="block";
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+
+function showHotels(){
+
+goHome();
+
+setTimeout(()=>{
+
+document.getElementById("hotelsSection")
+.scrollIntoView({behavior:"smooth"});
+
+},50);
+
+}
+
+
+function toggleAuth(){
+
+authMode=authMode==="login"
+?"register"
+:"login";
+
+updateAuthUI();
+
+}
+
+
+function updateAuthUI(){
+
+const register=
+document.getElementById("registerFields");
+
+const title=
+document.getElementById("authTitle");
+
+const button=
+document.getElementById("authButton");
+
+const switchText=
+document.getElementById("authSwitchText");
+
+if(authMode==="register"){
+
+register.style.display="block";
+
+title.textContent="Crear cuenta";
+
+button.textContent="Registrarme";
+
+switchText.textContent="¿Ya tienes una cuenta?";
+
+}else{
+
+register.style.display="none";
+
+title.textContent="Iniciar sesión";
+
+button.textContent="Iniciar sesión";
+
+switchText.textContent="¿No tienes una cuenta?";
+
+}
+
+}
+
+
+function submitAuth(){
+
+const email=
+document.getElementById("authEmail").value.trim();
+
+const password=
+document.getElementById("authPassword").value.trim();
+
+if(!email || !password){
+
+showToast("Completa todos los campos.");
+
+return;
+
+}
+
+if(authMode==="register"){
+
+const name=
+document.getElementById("registerName").value.trim();
+
+if(!name){
+
+showToast("Escribe tu nombre.");
+
+return;
+
+}
+
+const user={
+name:name,
+email:email
+};
+
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+);
+
+showToast("Cuenta creada correctamente.");
+
+}else{
+
+const user={
+name:email.split("@")[0],
+email:email
+};
+
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+);
+
+showToast("Bienvenido a Huéspedes.");
+
+}
+
+closeModal("authModal");
+
+}
+
+
+function logout(){
+
+localStorage.removeItem("user");
+
+goHome();
+
+showToast("Sesión cerrada.");
+
+}
+
+
+function closeModal(id){
+
+document.getElementById(id)
+.classList.remove("active");
+
+}
+
+
+function toggleDark(){
+
+document.body.classList.toggle("dark");
+
+localStorage.setItem(
+"darkMode",
+document.body.classList.contains("dark")
+);
+
+}
+
+
+function toggleMobile(){
+
+const links=document.querySelector(".nav-links");
+
+if(links.style.display==="flex"){
+
+links.style.display="none";
+
+}else{
+
+links.style.display="flex";
+
+links.style.flexDirection="column";
+
+links.style.position="absolute";
+
+links.style.top="70px";
+
+links.style.left="10px";
+
+links.style.right="10px";
+
+links.style.background="var(--card)";
+
+links.style.padding="15px";
+
+links.style.borderRadius="15px";
+
+links.style.border="1px solid var(--border)";
+
+}
+
+}
+
+
+function showToast(message){
+
+const toast=document.getElementById("toast");
+
+toast.textContent=message;
+
+toast.classList.add("show");
+
+setTimeout(()=>{
+
+toast.classList.remove("show");
+
+},2500);
+
+}
+
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+if(localStorage.getItem("darkMode")==="true"){
+
+document.body.classList.add("dark");
+
+}
+
+renderHotels();
+
+});
+
+</script>
+
+</body>
+</html>
+
+
+
+<button
+class="form-button"
+onclick="reserveHotel(${h.id})">
+Continuar
+</button>
+
